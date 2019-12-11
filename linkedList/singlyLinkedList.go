@@ -3,96 +3,109 @@ package main
 import "fmt"
 
 type Node struct {
-	Value string
-	Next  *Node
+	Value int
+	Node  *Node
 }
-
-type List struct {
+type LinkList struct {
 	Head *Node
 }
 
-func (l *List) Print() {
-	if l.Head == nil {
-		fmt.Println("List is empty")
+func (l *LinkList) Print() {
+	head := l.Head
+
+	if head == nil {
+		fmt.Println("List is empty!")
 		return
 	}
 
-	c := l.Head
-	for c != nil {
-		fmt.Printf("%s\t", c.Value)
-		c = c.Next
+	for head != nil {
+		fmt.Println(head.Value)
+		head = head.Node
 	}
-	fmt.Println()
 }
 
-func (l *List) Append(v string) {
-	n := &Node{
-		Value: v,
-	}
-	if l.Head == nil {
-		l.Head = n
+func (l *LinkList) Append(v int) {
+	head := l.Head
+	newNode := &Node{Value: v}
+
+	if head == nil {
+		l.Head = newNode
 		return
 	}
 
-	c := l.Head
-	for c.Next != nil {
-		c = c.Next
+	/* If head not empty set head to next node*/
+	for head.Node != nil {
+		head = head.Node
 	}
-	c.Next = n
-	l.Print()
+
+	head.Node = newNode
 }
 
-func (l *List) delete(v string) {
-	c := l.Head
-	if l.Head.Value == v {
-		l.Head = c.Next
-		l.Print()
+func (l *LinkList) AppendAfterHead(v int) {
+	head := l.Head
+	newNode := &Node{Value: v}
+
+	if head != nil {
+		prev := head.Node
+		l.Head.Node = newNode
+		l.Head.Node.Node = prev
+	}
+}
+
+func (l *LinkList) ChangeHeadValue(v int) {
+	head := l.Head
+	newNode := &Node{Value: v}
+
+	if head != nil {
+		prev := head.Node
+		l.Head = newNode
+		l.Head.Node = prev
+	}
+}
+
+func (l *LinkList) Delete(v int) {
+	head := l.Head
+	if head.Value == v {
+		l.Head = head.Node
 		return
 	}
-	for c != nil {
-		if c.Next.Value == v {
-			c.Next = c.Next.Next
+
+	for head.Node != nil {
+		if head.Node.Value == v {
+			head.Node = head.Node.Node
 			break
 		} else {
-			c = c.Next
+			head = head.Node
 		}
 	}
-	l.Print()
 }
 
-func (l *List) reverse() {
-	c := l.Head
-	var n, p *Node
-	for c != nil {
-		n = c.Next
-		c.Next = p
-		p = c
-		c = n
+func (l *LinkList) Search(v int) {
+	head := l.Head
+
+	if head.Value == v {
+		fmt.Printf("found head value: %v", v)
+		return
 	}
-	l.Head = p
-	l.Print()
-}
 
-func (l *List) search(v string) bool {
-	h := l.Head
-	for h != nil {
-		if h.Next.Value == v {
-			return true
+	for head.Node != nil {
+		if head.Node.Value == v {
+			fmt.Printf("found value: %v", v)
+			break
 		} else {
-			h = h.Next
+			head = head.Node
 		}
 	}
-	return false
-
 }
-
 func main() {
-	n := List{}
-	n.Append("joe")
-	n.Append("walker")
-	n.Append("test1")
-	n.Append("test2")
-	n.delete("joe")
-	n.reverse()
-	n.delete("test2")
+	link := LinkList{}
+	link.Append(1)
+	link.Append(2)
+	link.Append(3)
+	link.Append(4)
+	link.AppendAfterHead(5)
+	link.ChangeHeadValue(6)
+	//link.Delete(4)
+	link.Print()
+	//link.Search(1)
 }
