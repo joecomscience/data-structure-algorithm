@@ -58,6 +58,25 @@ func (dl *DoublyLinkList) Delete(v int) {
 	}
 }
 
+func (dl *DoublyLinkList) Search(v int) {
+	h := dl.Head
+	if h.Value == v {
+		fmt.Printf("equal head value: %d\n", v)
+		return
+	}
+
+	for h.Next != nil {
+		if h.Next.Value ==  v {
+			fmt.Printf("equal value: %d\n", v)
+			return
+		} else {
+			h = h.Next
+		}
+	}
+
+	fmt.Println("find not found")
+}
+
 func main() {
 	dl := DoublyLinkList{}
 	dl.Append(1)
@@ -66,6 +85,7 @@ func main() {
 	dl.Append(4)
 	dl.Print()
 	fmt.Println("-----")
-	dl.Delete(3)
-	dl.Print()
+	dl.Search(4)
+	//dl.Delete(3)
+	//dl.Print()
 }
