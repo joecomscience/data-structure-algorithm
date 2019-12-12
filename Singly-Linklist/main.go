@@ -41,6 +41,20 @@ func (l *LinkList) Append(v int) {
 	head.Node = newNode
 }
 
+func (l *LinkList) Reverse() {
+	cur := l.Head
+
+	var next, prev *Node
+	for cur != nil {
+		next = cur.Node
+		cur.Node = prev
+		prev = cur
+		cur = next
+	}
+
+	l.Head = prev
+}
+
 func (l *LinkList) AppendAfterHead(v int) {
 	head := l.Head
 	newNode := &Node{Value: v}
@@ -103,9 +117,11 @@ func main() {
 	link.Append(2)
 	link.Append(3)
 	link.Append(4)
-	link.AppendAfterHead(5)
-	link.ChangeHeadValue(6)
+	//link.AppendAfterHead(5)
+	//link.ChangeHeadValue(6)
 	//link.Delete(4)
+	link.Print()
+	link.Reverse()
 	link.Print()
 	//link.Search(1)
 }
