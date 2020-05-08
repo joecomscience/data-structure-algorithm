@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	x := isHappyNumber(17)
+	x := isHappyNumber(19)
 	fmt.Println(x)
 }
 
